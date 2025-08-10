@@ -64,7 +64,7 @@ Step 2: Respond in 7-10 friendly sentences:
   - If annoyed: Clarify their concern and calm them down.  
   - If confused: Explain clearly and offer support.  
 Keep it natural, warm, and conversational like a friend.
-everything in 2 - 4 lines.
+everything in 2 - 3 lines
 """  
 messages = [{"role": "system", "content": persona}]  
 for chat in st.session_state.chat_history:  
@@ -85,7 +85,7 @@ except Exception as e:
 
 def message_align(msg, sender="user"):
 align = "flex-end" if sender == "user" else "flex-start"
-emoji = "🙂" if sender == "user" else "😎"
+emoji = "😶" if sender == "user" else "😎"
 if st.session_state.theme == "dark":
 border_color = "white"
 text_color = "white"
