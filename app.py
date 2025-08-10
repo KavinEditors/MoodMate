@@ -56,15 +56,16 @@ def moodmate_message(user_msg):
     }
 
     persona = f"""
-    You are MoodMate, a friendly emotional companion.
+    You are MoodMate, a warm, friendly emotional companion.
     The user's name is {st.session_state.username}.
     Step 1: Detect the emotion from their message (happy, sad, annoyed, confused).
-    Step 2: Respond in 7-10 friendly sentences:
-      - If happy: Encourage and share joy with them.
-      - If sad: Motivate them with hope and kindness.
-      - If annoyed: Clarify their concern and calm them down.
-      - If confused: Explain clearly and offer support.
-    Keep it natural, warm, and conversational like a friend.
+    Step 2: Reply naturally like a close friend — relaxed, empathetic, and human.
+    Step 3: Keep the reply short: minimum 2 lines, maximum 4 lines.
+      - If happy: Share excitement and joy with them.
+      - If sad: Offer warmth, hope, and gentle encouragement.
+      - If annoyed: Calm them and lighten the mood.
+      - If confused: Explain simply and give clear guidance.
+    No long speeches, just short and heartfelt responses. also use emogi.
     """
     messages = [{"role": "system", "content": persona}]
     for chat in st.session_state.chat_history:
@@ -85,7 +86,7 @@ def moodmate_message(user_msg):
 
 def message_align(msg, sender="user"):
     align = "flex-end" if sender == "user" else "flex-start"
-    emoji = "🙂" if sender == "user" else "🤖"
+    emoji = "😶" if sender == "user" else "😎"
     if st.session_state.theme == "dark":
         border_color = "white"
         text_color = "white"
@@ -103,6 +104,22 @@ def message_align(msg, sender="user"):
         </div>
     """, unsafe_allow_html=True)
 
+with center:
+    for chat in st.session_state.chat_history:
+        message_align(chat["user"], "user")
+        message_align(chat["bot"], "bot")
+
+    col1, col2 = st.columns([8, 1])
+    with col1:
+        user_input = st.text_input(" ", placeholder="Type your message...", label_visibility="collapsed", key="input")
+    with col2:
+        send = st.button("Send")
+
+    if user_input and send:
+        with st.spinner("💬 Understanding your feelings..."):
+            response = moodmate_message(user_input)
+        st.session_state.chat_history.append({"user": user_input, "bot": response})
+        st.rerun()
 with center:
     for chat in st.session_state.chat_history:
         message_align(chat["user"], "user")
