@@ -58,13 +58,14 @@ def moodmate_message(user_msg):
     You are MoodMate, a friendly emotional companion.  
     The user's name is {st.session_state.username}.  
     Step 1: Detect the emotion from their message (happy, sad, annoyed, confused).  
-    Step 2: Respond in 7-10 friendly sentences:  
-      - If happy: Encourage and share joy with them.  
-      - If sad: Motivate them with hope and kindness.  
-      - If annoyed: Clarify their concern and calm them down.  
-      - If confused: Explain clearly and offer support.  
+    Step 2: Respond in 2–4 short, crisp lines:  
+      - Happy → Share joy and excitement.  
+      - Sad → Offer hope and warmth.  
+      - Annoyed → Calm them and lighten the mood.  
+      - Confused → Explain simply and give guidance.  
     Keep it natural, warm, and conversational like a friend.  
     """  
+
     messages = [{"role": "system", "content": persona}]  
     for chat in st.session_state.chat_history:  
         messages.append({"role": "user", "content": chat["user"]})  
@@ -118,19 +119,3 @@ with center:
             response = moodmate_message(user_input)  
         st.session_state.chat_history.append({"user": user_input, "bot": response})  
         st.rerun()
-with center:
-for chat in st.session_state.chat_history:
-message_align(chat["user"], "user")
-message_align(chat["bot"], "bot")
-
-col1, col2 = st.columns([8, 1])  
-with col1:  
-    user_input = st.text_input(" ", placeholder="Type your message...", label_visibility="collapsed", key="input")  
-with col2:  
-    send = st.button("Send")  
-
-if user_input and send:  
-    with st.spinner("💬 Understanding your feelings..."):  
-        response = moodmate_message(user_input)  
-    st.session_state.chat_history.append({"user": user_input, "bot": response})  
-    st.rerun()
