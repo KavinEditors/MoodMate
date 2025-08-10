@@ -1,0 +1,2 @@
+# MoodMate
+Your emotional companion
